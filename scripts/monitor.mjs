@@ -24,7 +24,7 @@ async function sendTelegram(text) {
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode: "Markdown" }),
+    body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text }),
   });
   if (!res.ok) {
     console.error(`Telegram API error: ${res.status} ${await res.text()}`);
@@ -116,9 +116,9 @@ async function main() {
     results.push({ name, url, up: isUp, detail, lastChecked });
 
     if (!isUp && wasUp !== false) {
-      await sendTelegram(`\u{1F534} *${name}* is DOWN\n${url}\n${detail}`);
+      await sendTelegram(`${name} is down\n${url}\n${detail}`);
     } else if (isUp && wasUp === false) {
-      await sendTelegram(`✅ *${name}* is back UP\n${url}`);
+      await sendTelegram(`${name} is back up\n${url}`);
     }
 
     console.log(`${name}: ${isUp ? "UP" : "DOWN"} (${url})`);
