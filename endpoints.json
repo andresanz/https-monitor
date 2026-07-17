@@ -1,5 +1,4 @@
 [
   { "name": "Example GitHub Pages site", "url": "https://andresanz.github.io/https-monitor/" },
-  { "name": "andresanz.com", "url": "https://andresanz.com/" },
-  { "name": "Telegram test (temporary, always 503)", "url": "https://httpstat.us/503" }
+  { "name": "andresanz.com", "url": "https://andresanz.com/" }
 ]
