@@ -35,8 +35,9 @@ async function checkEndpoint(url) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
-    const res = await fetch(url, { signal: controller.signal, redirect: "follow" });
-    return { ok: res.ok, status: res.status };
+    const res = await fetch(url, { signal: controller.signal, redirect: "manual" });
+    const isRedirect = res.status >= 300 && res.status < 400 && res.headers.has("location");
+    return { ok: res.ok || isRedirect, status: res.status };
   } catch (err) {
     return { ok: false, error: err.message };
   } finally {
