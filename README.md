@@ -33,17 +33,29 @@ run — there's no history/uptime log, just the latest snapshot.
 ## How it works
 
 `.github/workflows/monitor.yml` runs `scripts/monitor.mjs` every 5 minutes.
-Each endpoint is fetched with a 10s timeout; a non-2xx response or a network
-error/timeout counts as down. Status from the previous run is cached (via
-`actions/cache`, keyed on `.state/status.json`) so a Telegram message is only
-sent on a state transition (up → down, or down → up), not on every run.
+Each endpoint is fetched with a 10s timeout, without following redirects: a
+2xx response, or a 3xx with a `Location` header, counts as up; anything else
+(4xx/5xx or a network error/timeout) counts as down. Redirects are not
+followed because some redirect targets (e.g. LinkedIn) block automated
+clients with their own non-2xx status, which would otherwise cause false
+DOWN alerts for an endpoint that's actually fine.
 
-To test manually, trigger the workflow from the Actions tab
-("Run workflow"), or run it locally:
+Status from the previous run is cached (via `actions/cache`, keyed on
+`.state/status.json`) so a Telegram message — a plain `<name> is down` /
+`<name> is back up`, followed by the URL and detail — is only sent on a
+state transition (up → down, or down → up), not on every run.
+
+To test manually, run it locally:
 
 ```sh
 TELEGRAM_BOT_TOKEN=... TELEGRAM_CHAT_ID=... node scripts/monitor.mjs
 ```
+
+Or trigger it on GitHub: Actions tab → **Monitor Endpoints** (in the left
+sidebar) → **Run workflow** dropdown → Run workflow. This creates a new run
+against the latest commit. Re-running an existing run instead ("Re-run
+jobs" on a past run's page) replays that run's original commit, so it won't
+pick up endpoint or code changes made since.
 
 ## Adjusting the check interval
 
