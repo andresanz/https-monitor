@@ -45,6 +45,16 @@ async function checkEndpoint(url) {
   }
 }
 
+function formatET(isoString) {
+  return (
+    new Date(isoString).toLocaleString("en-US", {
+      timeZone: "America/New_York",
+      dateStyle: "medium",
+      timeStyle: "medium",
+    }) + " ET"
+  );
+}
+
 function escapeHtml(str) {
   return str.replace(/[&<>"']/g, (c) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
@@ -60,7 +70,7 @@ function buildDashboardHtml(results) {
         <td><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener">${escapeHtml(r.url)}</a></td>
         <td class="${r.up ? "up" : "down"}">${r.up ? "UP" : "DOWN"}</td>
         <td>${escapeHtml(r.detail ?? "")}</td>
-        <td>${r.lastChecked}</td>
+        <td>${formatET(r.lastChecked)}</td>
       </tr>`,
     )
     .join("\n");
@@ -89,12 +99,12 @@ function buildDashboardHtml(results) {
   <h1>https-monitor status</h1>
   <div class="banner ${allUp ? "up" : "down"}">${allUp ? "All systems operational" : "One or more endpoints are down"}</div>
   <table>
-    <thead><tr><th>Name</th><th>URL</th><th>Status</th><th>Detail</th><th>Last checked (UTC)</th></tr></thead>
+    <thead><tr><th>Name</th><th>URL</th><th>Status</th><th>Detail</th><th>Last checked (ET)</th></tr></thead>
     <tbody>
 ${rows}
     </tbody>
   </table>
-  <footer>Generated ${new Date().toISOString()}</footer>
+  <footer>Generated ${formatET(new Date().toISOString())}</footer>
 </body>
 </html>
 `;
