@@ -1,5 +1,6 @@
 [
-  { "name": "HTTPS Monitor Site", "url": "https://andresanz.github.io/https-monitor/" },
-  { "name": "andresanz.com Site", "url": "https://andresanz.com/" },
-    { "name": "noahsanz.com Site", "url": "https://noahsanz.com/" }
+  { "name": "HTTPS Monitor", "url": "https://andresanz.github.io/https-monitor/" },
+  { "name": "andresanz.com", "url": "https://andresanz.com/" },
+    { "name": "sanzdesign.com", "url": "https://sanzdesign.com/" },
+    { "name": "noahsanz.com", "url": "https://noahsanz.com/" }
 ]
