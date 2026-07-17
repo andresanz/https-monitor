@@ -1,3 +1,4 @@
 /site/
 /.state/
 node_modules/
+.wrangler/
