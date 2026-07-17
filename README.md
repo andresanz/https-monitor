@@ -59,6 +59,9 @@ pick up endpoint or code changes made since.
 
 ## Adjusting the check interval
 
-Edit the `cron` schedule in `.github/workflows/monitor.yml`. Note GitHub
-Actions schedules are not guaranteed to run exactly on time and won't run
-more often than every 5 minutes.
+Edit the `cron` schedule in `.github/workflows/monitor.yml`. It currently
+runs at `:07`, `:22`, `:37`, `:52` past the hour (every 15 minutes) rather
+than on round 5-minute marks (`*/5 * * * *`) — those round marks are the
+busiest slots across all of GitHub Actions and get delayed or dropped much
+more often. GitHub Actions schedules are never guaranteed to run exactly on
+time regardless, and won't run more often than every 5 minutes.
