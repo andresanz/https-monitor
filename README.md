@@ -19,6 +19,16 @@ sends a Telegram message when one goes down, and another when it recovers.
      { "name": "My site", "url": "https://myuser.github.io/my-repo/" }
    ]
    ```
+5. **Enable the status dashboard**: Settings → Pages → Build and deployment
+   → Source: **GitHub Actions**. After the workflow next runs, the page
+   will be live at `https://<owner>.github.io/https-monitor/`.
+
+## Status dashboard
+
+Every run writes a read-only `site/index.html` showing each endpoint's
+current up/down state, detail (HTTP status or error), and last-checked
+time, and publishes it to GitHub Pages. It's regenerated from scratch each
+run — there's no history/uptime log, just the latest snapshot.
 
 ## How it works
 
